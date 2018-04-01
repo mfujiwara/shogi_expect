@@ -17,9 +17,9 @@ _conv_same() {
   line_num=`echo "$input" | wc -l`
   for i in `seq 0 $line_num`
   do
-    line=`echo "$input" | sed -n "${i}p"`
-    prev=`echo "$line" | cut -d" " -f2`
-    echo "$line" | sed -e "s/同　/$prev /"
+    line=`echo "$input" | sed -n "${i}p" | sed -e "s/同　/$prev /"`
+    echo "$line"
+    prev=`echo "$line" | cut -d" " -f1`
   done
 }
 
