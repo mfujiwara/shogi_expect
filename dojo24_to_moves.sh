@@ -1,7 +1,7 @@
 #!/bin/sh
 
 _run() {
-  cat - | sed -n "/^1 /,//p" | cut -f2 -d" " | _conv_split | _format
+  cat - | sed -n "/^1 /,//p" | cut -f2 -d" " | _conv_split | _conv_same | _format
 }
 
 _conv_split() {
@@ -10,6 +10,17 @@ _conv_split() {
     -e 's/1)/a/' -e 's/2)/b/' -e 's/3)/c/' -e 's/4)/d/' -e 's/5)/e/' -e 's/6)/f/' -e 's/7)/g/' -e 's/8)/h/' -e 's/9)/i/' -e 's/(/ /' \
     -e 's/飛打/飛打 R*/' -e 's/角打/角打 B*/' -e 's/金打/金打 G*/' -e 's/銀打/銀打 S*/' -e 's/桂打/桂打 N*/' -e 's/香打/香打 L*/' -e 's/歩打/歩打 P*/' \
     -e 's/成 /+ /'
+}
+
+_conv_same() {
+  input=`cat -`
+  line_num=`echo "$input" | wc -l`
+  for i in `seq 0 $line_num`
+  do
+    line=`echo "$input" | sed -n "${i}p"`
+    prev=`echo "$line" | cut -d" " -f2`
+    echo "$line" | sed -e "s/同　/$prev /"
+  done
 }
 
 _format() {
