@@ -1,7 +1,7 @@
 #!/bin/sh
 
 _run() {
-  cat - | sed -n "/^1 /,//p" | cut -f2 -d" " | _conv_split | _conv_same | _format
+  cat - | grep -v "^*" | sed 's/^[ ]*//' | sed -n "/^1 /,//p" | cut -f2 -d" " | _conv_split | _conv_same | _format
 }
 
 _conv_split() {
